@@ -1,0 +1,53 @@
+package packTaller2NoOf;
+
+public class PC 
+{
+	private String IdPC;
+	private String ipPC;
+	private String sistemaOperativoPc;
+	
+	public PC(String idPC, String ipPC, String sistemaOperativoPc) {
+		this.IdPC = idPC;
+		this.ipPC = ipPC;
+		this.sistemaOperativoPc = sistemaOperativoPc;
+	}
+
+	
+	
+	
+	public String getIdPC() {
+		return IdPC;
+	}
+
+
+
+
+	public String getIpPC() {
+		return ipPC;
+	}
+
+
+
+
+	public String getSistemaOperativoPc() {
+		return sistemaOperativoPc;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "ID PC = " + IdPC + "\n" 
+				+ "IP DEL PC=" + ipPC + "\n" +
+				"TIPO DE SISTEMA OPERATIVO = " + sistemaOperativoPc + "]"+"\n    ";
+	}
+	
+	
+	
+	
+	
+	
+	
+
+}
