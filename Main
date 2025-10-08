@@ -1,2 +1,107 @@
-//prueba de taller7
-AÑA
+package packTaller2NoOf;
+import java.util.Scanner;
+
+
+public class Main {
+	private static Scanner scan;
+	
+
+	public static void main(String[] args) 
+	{
+		
+		
+		scan = new Scanner(System.in);
+		String menuElegido= "";
+		int opcionElegida = 0;
+		
+		do {
+			System.out.print("Eliga un menú Usurario o Administrador (U / A / S para salir): ");
+			menuElegido = scan.nextLine().toUpperCase();
+			switch (menuElegido) {
+			case "U":
+				System.out.println();
+				System.out.println("Menú Usuario");
+				System.out.println();
+				System.out.println("1. Ver lista de PCS");
+				System.out.println("2. Escanear un PC");
+				System.out.println("3. Ver total de puertos abiertos en todos los PCS de la red");
+				System.out.println("4. Ordenar PCS según IP");
+				System.out.print("Ingrese una opcion > ");
+				opcionElegida = Integer.valueOf(scan.nextLine());
+				
+				switch (opcionElegida) {//inicia switch Menú usuario
+				case 1:
+					System.out.println("-----------------------------");
+					System.out.println("Lista de PCS:");
+					System.out.println();
+					break;
+				case 2:
+					System.out.println("-----------------------------");
+					//
+					System.out.println();
+
+					break;
+				case 3:
+					System.out.println("-----------------------------");
+					System.out.println("Total de puertos abiertos");
+					System.out.println();
+					break;
+				case 4:
+					System.out.println("-----------------------------");
+					//
+					System.out.println();
+					break;
+					
+					
+				}// aqui termina switch de opciones Menú usuario
+				
+				
+				
+				break;// break para salir de la opcion Usuario
+				
+				
+			case "A":
+				System.out.println();
+				System.out.println("Menú Admin ");
+				System.out.println();
+				System.out.println("1. Ver lista completa de PCS junto a su información");
+				System.out.println("2. Agregar o eliminar un PC de la lista");
+				System.out.println("3. Clasificar PCS según su nivel de riesgo");
+				System.out.print("Ingrese una opcion > ");
+				opcionElegida = Integer.valueOf(scan.nextLine());
+				
+				switch (opcionElegida) {//inicia switch Menú usuario
+				case 1:
+					System.out.println("-----------------------------");
+					System.out.println("Lista completa de PCS: ");
+					System.out.println();
+					break;
+				case 2:
+					System.out.println("-----------------------------");
+					//
+					System.out.println();
+
+					break;
+				case 3:
+					System.out.println("-----------------------------");
+					System.out.println("Total de puertos abiertos");
+					System.out.println();
+					break;
+		
+				
+				}// aqui termina switch de opciones Menú admin 
+				
+				break;//break salir para la opcion admin
+				
+				
+			default:
+				System.out.println("Menú no valido, intene de nuevo.");
+				break;//break 
+			}//Hasta aqui llega el switch de los menus
+				
+		} while (!menuElegido.equalsIgnoreCase("S"));// while que rompe el progama si se elige "S"
+		System.out.println("Saliendo...");
+		
+	}
+
+}
