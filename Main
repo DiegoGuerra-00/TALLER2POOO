@@ -13,16 +13,14 @@ public class Main {
 	{
 		ArrayList<PC> listaPCS = new ArrayList<>();
 		llenarlistaPCS("pcs.txt",listaPCS);		
+		
 		ArrayList<Puerto> listaPuertos = new ArrayList<>();
 		rellenarlistaPuertos("puertos.txt",listaPuertos,listaPCS);
-//	
-//		for (PC p : listaPCS) {
-//			System.out.println("PC : "+p.getIdPC());
-//			for(Puerto puerto : p.getListaPuertosDelPc()) {
-//				System.out.println("Puertos : "+ puerto.getNumeroPuerto()+ " Estado :" +puerto.getEstadoPuerto());
-//
-//			}
-//		}
+		
+		ArrayList<Vulnerabilidad> listaVulnerabilidad = new ArrayList<>();
+		rellenarlistaVulnerabildad("vulnerabilidades.txt", listaVulnerabilidad,listaPuertos);
+		
+		
 		scan = new Scanner(System.in);
 		String menuElegido= "";
 		int opcionElegida = 0;
@@ -66,8 +64,9 @@ public class Main {
 					break;
 				case 3:
 					System.out.println("-----------------------------");
-					System.out.println("Total de puertos abiertos");
+					System.out.println("Puertos abiertos");
 					System.out.println();
+					mostrarTotalPuertosAbiertos(listaPuertos);
 					break;
 				case 4:
 					System.out.println("-----------------------------");
@@ -110,6 +109,7 @@ public class Main {
 					System.out.println("-----------------------------");
 					System.out.println("Total de puertos abiertos");
 					System.out.println();
+					
 					break;
 		
 				
@@ -179,9 +179,30 @@ public class Main {
 			
 		}
 	}
+	public static void rellenarlistaVulnerabildad(String arch, ArrayList<Vulnerabilidad> listaVulne, ArrayList<Puerto> listaPuerto	) throws FileNotFoundException 
+	{
+		Scanner scan = new Scanner(new File(arch));
+		while(scan.hasNextLine()) {
+			String linea  = scan.nextLine();
+			String[] partes = linea.split("\\|");
+			
+			int idPuerto = Integer.valueOf(partes[0]);
+			String nombreVulne  = partes[1];
+			String descripcionVulne = partes[2];
+			
+			Vulnerabilidad vulnerabilidad = new Vulnerabilidad(idPuerto, nombreVulne, descripcionVulne);
+			listaVulne.add(vulnerabilidad);
+			for(int i = 0; i<listaPuerto.size(); i++) {
+				if(listaPuerto.get(i).getNumeroPuerto() == idPuerto) {
+					listaPuerto.get(i).agregarVulnerabilidades(vulnerabilidad);
+				}
+			}
+			
+		}
+		
+	}
 	public static void mostrarPuertosPcElegido(String pc, ArrayList<PC> listapc)
 	{
-		
 		for (PC p : listapc) {
 			if(p.getIdPC().equalsIgnoreCase(pc)) {
 				System.out.println();
@@ -191,5 +212,24 @@ public class Main {
 					}
 			   }
 			}	
+	}
+	public static void mostrarTotalPuertosAbiertos(ArrayList<Puerto> listaPuerto) {
+		int contar = 0;
+		for(Puerto p : listaPuerto) {
+			if(p.getEstadoPuerto().equalsIgnoreCase("Abierto")) {
+				contar ++;
+				System.out.println("PUERTO  : "+p.getNumeroPuerto());
+				for(Vulnerabilidad v : p.getListaVulnerabiliadadPuerto()) {
+					System.out.println("NOMBRE VULNERABILIDAD : "+ v.getNombreVulnerabilidad());
+					System.out.println("DESCRIPCIPÓN VULNERABILIDAD : "+v.getDescripcionVulnerabilidad());
+					System.err.println();
+				}
+			}
+			
+		}
+		System.out.println("-----------------------------");
+		System.out.println("TOTAL PUERTOS ABIERTOS : "+contar);
+		System.out.println("-----------------------------");
+
 	}
 }
