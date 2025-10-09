@@ -11,14 +11,14 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException 
 	{
-		ArrayList<PC> listaPCS = new ArrayList<>();
-		llenarlistaPCS("pcs.txt",listaPCS);		
+		ArrayList<PC> listaPCS = new ArrayList<>(); // se crea lista vacia de tipo PC
+		llenarlistaPCS("pcs.txt",listaPCS);	// Se rellena lista vacia con objetos de tipo PC
 		
-		ArrayList<Puerto> listaPuertos = new ArrayList<>();
-		rellenarlistaPuertos("puertos.txt",listaPuertos,listaPCS);
+		ArrayList<Puerto> listaPuertos = new ArrayList<>();// se crea lista vacia de tipo PUERTO
+		rellenarlistaPuertos("puertos.txt",listaPuertos,listaPCS); // Se rellena lista vacia con objetos de tipo PC y se rellena lista puerto de la clase PC
 		
-		ArrayList<Vulnerabilidad> listaVulnerabilidad = new ArrayList<>();
-		rellenarlistaVulnerabildad("vulnerabilidades.txt", listaVulnerabilidad,listaPuertos);
+		ArrayList<Vulnerabilidad> listaVulnerabilidad = new ArrayList<>(); // Se rellena lista vacia con objetos de tipo VULNERABILIDAD
+		rellenarlistaVulnerabildad("vulnerabilidades.txt", listaVulnerabilidad,listaPuertos);//  Se rellena lista vacia con objetos tipo VURNERABILIDAD y se llena lista puerto para su vulnerabilidad
 		
 		
 		scan = new Scanner(System.in);
@@ -57,7 +57,7 @@ public class Main {
 					System.out.print("Ingrese un PC ( ej 'PC002' o 'PC010'): ");
 					String pcElegido = scan.nextLine();
 					
-					mostrarPuertosPcElegido(pcElegido,listaPCS);
+					mostrarPuertosPcElegido(pcElegido,listaPCS); // se llama al metodo que mostrara el PC elegido 
 					System.out.println();
 					
 
@@ -66,7 +66,7 @@ public class Main {
 					System.out.println("-----------------------------");
 					System.out.println("Puertos abiertos");
 					System.out.println();
-					mostrarTotalPuertosAbiertos(listaPuertos);
+					mostrarTotalPuertosAbiertos(listaPuertos);//muestra el total de puertos abiertos 
 					break;
 				case 4:
 					System.out.println("-----------------------------");
@@ -129,7 +129,7 @@ public class Main {
 		
 	}
 	public static void llenarlistaPCS(String arch , ArrayList<PC> listapcs) throws FileNotFoundException 
-	{
+	{ // este metodo tiene como funcion rellenar la lista PC, accediendo al archivo PCS
 		Scanner scan = new Scanner(new File(arch));
 		while(scan.hasNextLine()) {
 			String linea = scan.nextLine();
@@ -145,7 +145,7 @@ public class Main {
 		}scan.close();
 	}
 	public static void mostrarListaPCS(ArrayList<PC> listapcs) 
-	{
+	{// este metodo tiene como funcion mostrar las listasPC
 		for (int i = 0; i< listapcs.size(); i ++) {
 			String idPc = listapcs.get(i).getIdPC();
 			String ipPc = listapcs.get(i).getIpPC();
@@ -158,7 +158,7 @@ public class Main {
 		}
 	}
 	public static void rellenarlistaPuertos(String arch, ArrayList<Puerto> listaPuertos, ArrayList<PC> listapc) throws FileNotFoundException 
-	{
+	{// este metodo tiene como funcion rellenar de objetos la lista de puertos y agregar objetos a la lista " listaPuertosDelPc" de la clase PC
 		Scanner scan = new Scanner(new File(arch));
 		while(scan.hasNextLine()) {
 			String linea = scan.nextLine();
@@ -180,7 +180,7 @@ public class Main {
 		}
 	}
 	public static void rellenarlistaVulnerabildad(String arch, ArrayList<Vulnerabilidad> listaVulne, ArrayList<Puerto> listaPuerto	) throws FileNotFoundException 
-	{
+	{// este metodo tiene como funcion agregar objetos  la list VULNERABILIDAD, tiene como otro parametro la lista de puertos ya creada con objetos, en ella se accede y se agregan objetos  al lista "listaVulnerabiliadadPuerto" de la clase PUERTO 
 		Scanner scan = new Scanner(new File(arch));
 		while(scan.hasNextLine()) {
 			String linea  = scan.nextLine();
@@ -202,7 +202,7 @@ public class Main {
 		
 	}
 	public static void mostrarPuertosPcElegido(String pc, ArrayList<PC> listapc)
-	{
+	{// solo printea el puerto elegido por el usuario 
 		for (PC p : listapc) {
 			if(p.getIdPC().equalsIgnoreCase(pc)) {
 				System.out.println();
@@ -214,6 +214,7 @@ public class Main {
 			}	
 	}
 	public static void mostrarTotalPuertosAbiertos(ArrayList<Puerto> listaPuerto) {
+		// muestra por pantalla el total de puertos abiertos
 		int contar = 0;
 		for(Puerto p : listaPuerto) {
 			if(p.getEstadoPuerto().equalsIgnoreCase("Abierto")) {
