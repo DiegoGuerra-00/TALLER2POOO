@@ -13,8 +13,16 @@ public class Main {
 	{
 		ArrayList<PC> listaPCS = new ArrayList<>();
 		llenarlistaPCS("pcs.txt",listaPCS);		
-
-	
+		ArrayList<Puerto> listaPuertos = new ArrayList<>();
+		rellenarlistaPuertos("puertos.txt",listaPuertos,listaPCS);
+//	
+//		for (PC p : listaPCS) {
+//			System.out.println("PC : "+p.getIdPC());
+//			for(Puerto puerto : p.getListaPuertosDelPc()) {
+//				System.out.println("Puertos : "+ puerto.getNumeroPuerto()+ " Estado :" +puerto.getEstadoPuerto());
+//
+//			}
+//		}
 		scan = new Scanner(System.in);
 		String menuElegido= "";
 		int opcionElegida = 0;
@@ -46,8 +54,14 @@ public class Main {
 					break;
 				case 2:
 					System.out.println("-----------------------------");
-					//
+					System.out.println("Escanear un PC");
 					System.out.println();
+					System.out.print("Ingrese un PC ( ej 'PC002' o 'PC010'): ");
+					String pcElegido = scan.nextLine();
+					
+					mostrarPuertosPcElegido(pcElegido,listaPCS);
+					System.out.println();
+					
 
 					break;
 				case 3:
@@ -130,7 +144,8 @@ public class Main {
 			
 		}scan.close();
 	}
-	public static void mostrarListaPCS(ArrayList<PC> listapcs) {
+	public static void mostrarListaPCS(ArrayList<PC> listapcs) 
+	{
 		for (int i = 0; i< listapcs.size(); i ++) {
 			String idPc = listapcs.get(i).getIdPC();
 			String ipPc = listapcs.get(i).getIpPC();
@@ -142,5 +157,39 @@ public class Main {
 			
 		}
 	}
+	public static void rellenarlistaPuertos(String arch, ArrayList<Puerto> listaPuertos, ArrayList<PC> listapc) throws FileNotFoundException 
+	{
+		Scanner scan = new Scanner(new File(arch));
+		while(scan.hasNextLine()) {
+			String linea = scan.nextLine();
+			String[] partes = linea.split("\\|");
+			
+			String idPc = partes[0];
+			int numeroPuerto = Integer.valueOf(partes[1]);
+			String estadoPuerto = partes[2];
+			
+			Puerto puerto = new Puerto(idPc, numeroPuerto, estadoPuerto);
+			listaPuertos.add(puerto);
+			for (int i = 0; i<listapc.size(); i++) {
+				if(listapc.get(i).getIdPC().equals(idPc)) {
+					listapc.get(i).agregarPuertos(puerto);
 
+				}
+			}
+			
+		}
+	}
+	public static void mostrarPuertosPcElegido(String pc, ArrayList<PC> listapc)
+	{
+		
+		for (PC p : listapc) {
+			if(p.getIdPC().equalsIgnoreCase(pc)) {
+				System.out.println();
+				System.out.println("PC : "+p.getIdPC());
+				for(Puerto puerto : p.getListaPuertosDelPc()) {
+					System.out.println("Puertos : "+ puerto.getNumeroPuerto()+ ", Estado :" +puerto.getEstadoPuerto());
+					}
+			   }
+			}	
+	}
 }
