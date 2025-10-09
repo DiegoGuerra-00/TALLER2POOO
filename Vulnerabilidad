@@ -1,0 +1,27 @@
+package packTaller2NoOf;
+
+public class Vulnerabilidad {
+	
+	private int idVulnerabilidad;
+	private String nombreVulnerabilidad;
+	private String descripcionVulnerabilidad;
+	public Vulnerabilidad(int idVulnerabilidad, String nombreVulnerabilidad, String descripcionVulnerabilidad) {
+		super();
+		this.idVulnerabilidad = idVulnerabilidad;
+		this.nombreVulnerabilidad = nombreVulnerabilidad;
+		this.descripcionVulnerabilidad = descripcionVulnerabilidad;
+	}
+	public int getIdVulnerabilidad() {
+		return idVulnerabilidad;
+	}
+	public String getNombreVulnerabilidad() {
+		return nombreVulnerabilidad;
+	}
+	public String getDescripcionVulnerabilidad() {
+		return descripcionVulnerabilidad;
+	}
+	
+	
+	
+
+}
