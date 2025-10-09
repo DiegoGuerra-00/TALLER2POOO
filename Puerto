@@ -1,0 +1,30 @@
+package packTaller2NoOf;
+
+public class Puerto 
+{
+	private String idPC;
+	private int numeroPuerto;
+	private String estadoPuerto;
+	public Puerto(String idPC, int numeroPuerto, String estadoPuerto) {
+		this.idPC = idPC;
+		this.numeroPuerto = numeroPuerto;
+		this.estadoPuerto = estadoPuerto;
+	}
+	public String getIdPC() {
+		return idPC;
+	}
+	public int getNumeroPuerto() {
+		return numeroPuerto;
+	}
+	public String getEstadoPuerto() {
+		return estadoPuerto;
+	}
+	@Override
+	public String toString() {
+		return "Puerto [idPC=" + idPC + ", numeroPuerto=" + numeroPuerto + ", estadoPuerto=" + estadoPuerto + "]";
+	}
+	
+	
+	
+	
+}
