@@ -1,14 +1,18 @@
 package packTaller2NoOf;
 
+import java.util.ArrayList;
+
 public class Puerto 
 {
 	private String idPC;
 	private int numeroPuerto;
 	private String estadoPuerto;
+	ArrayList<Vulnerabilidad> listaVulnerabiliadadPuerto;
 	public Puerto(String idPC, int numeroPuerto, String estadoPuerto) {
 		this.idPC = idPC;
 		this.numeroPuerto = numeroPuerto;
 		this.estadoPuerto = estadoPuerto;
+		this.listaVulnerabiliadadPuerto = new ArrayList<>();
 	}
 	public String getIdPC() {
 		return idPC;
@@ -18,6 +22,18 @@ public class Puerto
 	}
 	public String getEstadoPuerto() {
 		return estadoPuerto;
+	}
+	
+	
+	public void agregarVulnerabilidades(Vulnerabilidad v) {
+		this.listaVulnerabiliadadPuerto.add(v);
+	}
+	
+	public ArrayList<Vulnerabilidad> getListaVulnerabiliadadPuerto() {
+		return listaVulnerabiliadadPuerto;
+	}
+	public void setListaVulnerabiliadadPuerto(ArrayList<Vulnerabilidad> listaVulnerabiliadadPuerto) {
+		this.listaVulnerabiliadadPuerto = listaVulnerabiliadadPuerto;
 	}
 	@Override
 	public String toString() {
