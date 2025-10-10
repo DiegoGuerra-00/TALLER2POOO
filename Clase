@@ -1,0 +1,43 @@
+package packTaller2NoOf;
+
+import java.util.ArrayList;
+
+public class Clase {
+	ArrayList<PC> listaTipoClase;
+	private String tipoClase;
+
+	
+	public Clase(String tipoClase) {
+		this.listaTipoClase = new ArrayList<PC>();
+		this.tipoClase = tipoClase;
+	}
+
+	public ArrayList<PC> getListaTipoClase() {
+		return listaTipoClase;
+	}
+
+	public void agregarListaTipoClase(PC p) {
+		this.listaTipoClase.add(p);
+	}
+
+	public String getTipoClase() {
+		return tipoClase;
+	}
+
+	public void setTipoClase(String tipoClase) {
+		this.tipoClase = tipoClase;
+	}
+
+	public void imprimirPCsegunIP() {
+		System.out.println("Clase : "+tipoClase);
+		System.out.println(" PC     |    IP        |     SISTEMA OPERATIVO     |");
+		for(PC p: listaTipoClase) {
+			System.out.println(p.getIdPC()+"     "+p.getIpPC()+"         "+ p.getSistemaOperativoPc());
+			 
+		}
+		System.out.println("-----------------------------");
+	}
+	
+	
+
+}
