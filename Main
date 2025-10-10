@@ -238,6 +238,9 @@ public class Main {
 
 	}
 	public static void mostrarIPordenada(ArrayList<PC> listapcs) {
+		// este metodo crea nuevos objetos de tipo Clase, luego se accede a cada objeto con for each para acceder agregar datos a la lista 
+		// "listaTipoClase" de la clase "Clase", se rellena con objetos tipo clase para acceder a ellos con una condicion (la condicion de las ip)
+		// luego se muestra por pantalla llamando a un metodo dentro de la clase "Clase"
 		Clase claseA = new Clase("A");
 		Clase claseB = new Clase("B");
 		Clase claseC = new Clase("C");
