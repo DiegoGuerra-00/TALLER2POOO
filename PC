@@ -7,27 +7,28 @@ public class PC
 	private String IdPC;
 	private String ipPC;
 	private String sistemaOperativoPc;
+	
 	ArrayList<Puerto> listaPuertosDelPc;
-	ArrayList<Puerto> listaNumeroPuerto;
+//	ArrayList<Puerto> listaNumeroPuerto;
 	
 	public PC(String idPC, String ipPC, String sistemaOperativoPc) {
 		this.IdPC = idPC;
 		this.ipPC = ipPC;
 		this.sistemaOperativoPc = sistemaOperativoPc;
 		this.listaPuertosDelPc = new ArrayList<>();
-		this.listaNumeroPuerto = new ArrayList<>();
+//		this.listaNumeroPuerto = new ArrayList<>();
 		
 	}
 
 	
-	public void agregarPuertos( Puerto p){
+	public void agregarPuertos( Puerto p ){
 		this.listaPuertosDelPc.add(p);
 
 	}
-	public void agregarNumeroPuerto(Puerto p) {
-		this.listaNumeroPuerto.add(p);
-	}
-	
+//	public void agregarNumeroPuerto(Puerto p) {
+//		this.listaNumeroPuerto.add(p);
+//	}
+//	
 	public String getIdPC() {
 		return IdPC;
 	}
@@ -47,9 +48,9 @@ public class PC
 	}
 
 
-	public ArrayList<Puerto> getListaNumeroPuerto() {
-		return listaNumeroPuerto;
-	}
+//	public ArrayList<Puerto> getListaNumeroPuerto() {
+//		return listaNumeroPuerto;
+//	}
 
 
 	public String getSistemaOperativoPc() {
