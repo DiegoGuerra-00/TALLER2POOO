@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+
 public class Main {
 	private static Scanner scan;
 	
@@ -70,8 +71,10 @@ public class Main {
 					break;
 				case 4:
 					System.out.println("-----------------------------");
-					//
+					System.out.println("PCS ORDENADOS SEGUN SU IP");
 					System.out.println();
+					mostrarIPordenada(listaPCS);
+					
 					break;
 					
 					
@@ -213,7 +216,8 @@ public class Main {
 			   }
 			}	
 	}
-	public static void mostrarTotalPuertosAbiertos(ArrayList<Puerto> listaPuerto) {
+	public static void mostrarTotalPuertosAbiertos(ArrayList<Puerto> listaPuerto) 
+	{
 		// muestra por pantalla el total de puertos abiertos
 		int contar = 0;
 		for(Puerto p : listaPuerto) {
@@ -231,6 +235,32 @@ public class Main {
 		System.out.println("-----------------------------");
 		System.out.println("TOTAL PUERTOS ABIERTOS : "+contar);
 		System.out.println("-----------------------------");
+
+	}
+	public static void mostrarIPordenada(ArrayList<PC> listapcs) {
+		Clase claseA = new Clase("A");
+		Clase claseB = new Clase("B");
+		Clase claseC = new Clase("C");
+		
+		for(PC p : listapcs) {
+			String ipPC = p.getIpPC();
+			String[] partes = ipPC.split("\\.");
+			
+			int primerNumero = Integer.valueOf(partes[0]);
+			
+			if(primerNumero>= 0 && primerNumero<=127) {
+				claseA.agregarListaTipoClase(p);
+			}
+			else if(primerNumero>= 128 && primerNumero<=191) {
+				claseB.agregarListaTipoClase(p);
+			}
+			else if(primerNumero>= 192 && primerNumero<=223) {
+				claseC.agregarListaTipoClase(p);
+			}
+		}
+		claseA.imprimirPCsegunIP();
+		claseB.imprimirPCsegunIP();
+		claseC.imprimirPCsegunIP();
 
 	}
 }
