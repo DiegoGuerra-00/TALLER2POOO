@@ -1,43 +1,39 @@
-package packTaller2NoOf;
+package JoaquinBerenguela_DiegoGuerra_Taller2POO;
 
 import java.util.ArrayList;
 
 public class Clase {
-	ArrayList<PC> listaTipoClase;
-	private String tipoClase;
-
 	
+	private ArrayList<Pc> listaTipoClase;
+	private String tipoClase;
 	public Clase(String tipoClase) {
-		this.listaTipoClase = new ArrayList<PC>();
 		this.tipoClase = tipoClase;
+		listaTipoClase = new ArrayList<>();
 	}
-
-	public ArrayList<PC> getListaTipoClase() {
+	public ArrayList<Pc> getListaTipoClase() {
 		return listaTipoClase;
 	}
-
-	public void agregarListaTipoClase(PC p) {
-		this.listaTipoClase.add(p);
+	public void setListaTipoClase(ArrayList<Pc> listaTipoClase) {
+		this.listaTipoClase = listaTipoClase;
 	}
-
 	public String getTipoClase() {
 		return tipoClase;
 	}
-
 	public void setTipoClase(String tipoClase) {
 		this.tipoClase = tipoClase;
 	}
-
-	public void imprimirPCsegunIP() {
+	
+	public void agregarListaTipoClase(Pc p) {
+		listaTipoClase.add(p);
+	}
+	
+	public void imprimirPcsegunIp() {
 		System.out.println("Clase : "+tipoClase);
 		System.out.println(" PC     |    IP        |     SISTEMA OPERATIVO     |");
-		for(PC p: listaTipoClase) {
+		for(Pc p: listaTipoClase) {
 			System.out.println(p.getIdPC()+"     "+p.getIpPC()+"         "+ p.getSistemaOperativoPc());
 			 
 		}
 		System.out.println("-----------------------------");
 	}
-	
-	
-
 }
