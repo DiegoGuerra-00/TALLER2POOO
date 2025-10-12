@@ -1,19 +1,22 @@
-package packTaller2NoOf;
+package JoaquinBerenguela_DiegoGuerra_Taller2POO;
 
 import java.util.ArrayList;
 
-public class Puerto 
-{
+public class Puerto {
+	
 	private String idPC;
 	private int numeroPuerto;
 	private String estadoPuerto;
-	ArrayList<Vulnerabilidad> listaVulnerabiliadadPuerto;
+	
+	private ArrayList<Vulnerabilidad> listaVulnerabilidad;
+	
 	public Puerto(String idPC, int numeroPuerto, String estadoPuerto) {
 		this.idPC = idPC;
 		this.numeroPuerto = numeroPuerto;
 		this.estadoPuerto = estadoPuerto;
-		this.listaVulnerabiliadadPuerto = new ArrayList<>();
+		listaVulnerabilidad = new ArrayList<>();
 	}
+	
 	public String getIdPC() {
 		return idPC;
 	}
@@ -24,23 +27,15 @@ public class Puerto
 		return estadoPuerto;
 	}
 	
-	
-	public void agregarVulnerabilidades(Vulnerabilidad v) {
-		this.listaVulnerabiliadadPuerto.add(v);
+	public ArrayList<Vulnerabilidad> getlistaVulnerabilidad(){
+		return listaVulnerabilidad;
 	}
 	
-	public ArrayList<Vulnerabilidad> getListaVulnerabiliadadPuerto() {
-		return listaVulnerabiliadadPuerto;
-	}
-	public void setListaVulnerabiliadadPuerto(ArrayList<Vulnerabilidad> listaVulnerabiliadadPuerto) {
-		this.listaVulnerabiliadadPuerto = listaVulnerabiliadadPuerto;
+	public void agregarVulnerabilidad(Vulnerabilidad v) {
+		listaVulnerabilidad.add(v);
 	}
 	@Override
 	public String toString() {
 		return "Puerto [idPC=" + idPC + ", numeroPuerto=" + numeroPuerto + ", estadoPuerto=" + estadoPuerto + "]";
 	}
-	
-	
-	
-	
 }
