@@ -1,37 +1,35 @@
-package packTaller2NoOf;
+//Joaquín Berenguela Caimanque | 21.708.988-3 | ICCI
+//Diego Guerra Estay | 21.686.594-4 | ICCI
+
+package JoaquinBerenguela_DiegoGuerra_Taller2POO;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-
 public class Main {
-	private static Scanner scan;
-	
 
-	public static void main(String[] args) throws FileNotFoundException 
-	{
-		ArrayList<PC> listaPCS = new ArrayList<>(); // se crea lista vacia de tipo PC
-		llenarlistaPCS("pcs.txt",listaPCS);	// Se rellena lista vacia con objetos de tipo PC
-		
-		ArrayList<Puerto> listaPuertos = new ArrayList<>();// se crea lista vacia de tipo PUERTO
-		rellenarlistaPuertos("puertos.txt",listaPuertos,listaPCS); // Se rellena lista vacia con objetos de tipo PC y se rellena lista puerto de la clase PC
-		
-		ArrayList<Vulnerabilidad> listaVulnerabilidad = new ArrayList<>(); // Se rellena lista vacia con objetos de tipo VULNERABILIDAD
-		rellenarlistaVulnerabildad("vulnerabilidades.txt", listaVulnerabilidad,listaPuertos);//  Se rellena lista vacia con objetos tipo VURNERABILIDAD y se llena lista puerto para su vulnerabilidad
-		
-		
+	private static Scanner scan;
+	private static ArrayList<Pc> listaPCS = new ArrayList<>();
+	private static ArrayList<Puerto> listaPuertos = new ArrayList<>();
+	private static ArrayList<Vulnerabilidad> listaVulnerabilidad = new ArrayList<>();
+
+	public static void main(String[] args) throws FileNotFoundException {
+
+		llenarlistaPCS("pcs.txt");
+		rellenarlistaPuertos("puertos.txt");
+
 		scan = new Scanner(System.in);
-		String menuElegido= "";
+		String menuElegido = "";
 		int opcionElegida = 0;
-		
+
 		do {
-			System.out.print("Eliga un menú Usurario o Administrador (U / A / S para salir): ");
+			System.out.print("Eliga un menú Usuario o Administrador (U / A / S para salir): ");
 			menuElegido = scan.nextLine().toUpperCase();
-		
+
 			switch (menuElegido) {
-			
+
 			case "U":
 				System.out.println();
 				System.out.println("Menú Usuario");
@@ -41,50 +39,44 @@ public class Main {
 				System.out.println("3. Ver total de puertos abiertos en todos los PCS de la red");
 				System.out.println("4. Ordenar PCS según IP");
 				System.out.print("Ingrese una opcion > ");
-				
+
 				opcionElegida = Integer.valueOf(scan.nextLine());
-				
-				switch (opcionElegida) {//inicia switch Menú usuario
+
+				switch (opcionElegida) {// inicia switch Menú usuario
 				case 1:
 					System.out.println("-----------------------------");
 					System.out.println("Lista de PCS:");
 					System.out.println();
-					mostrarListaPCS(listaPCS);
+					mostrarListaPCS();
 					break;
+
 				case 2:
 					System.out.println("-----------------------------");
 					System.out.println("Escanear un PC");
 					System.out.println();
 					System.out.print("Ingrese un PC ( ej 'PC002' o 'PC010'): ");
 					String pcElegido = scan.nextLine();
-					
-					mostrarPuertosPcElegido(pcElegido,listaPCS); // se llama al metodo que mostrara el PC elegido 
-					System.out.println();
-					
 
+					escanearPc(pcElegido);
+					System.out.println();
 					break;
 				case 3:
 					System.out.println("-----------------------------");
-					System.out.println("Puertos abiertos");
+					System.out.println("Total de puertos abiertos");
 					System.out.println();
-					mostrarTotalPuertosAbiertos(listaPuertos);//muestra el total de puertos abiertos 
+					mostrarTotalPuertosAbiertos();
 					break;
 				case 4:
 					System.out.println("-----------------------------");
-					System.out.println("PCS ORDENADOS SEGUN SU IP");
+					//
 					System.out.println();
-					mostrarIPordenada(listaPCS);
-					
+					mostrarIpsOrdenadas();
 					break;
-					
-					
+
 				}// aqui termina switch de opciones Menú usuario
-				
-				
-				
+
 				break;// break para salir de la opcion Usuario
-				
-				
+
 			case "A":
 				System.out.println();
 				System.out.println("Menú Admin ");
@@ -94,176 +86,379 @@ public class Main {
 				System.out.println("3. Clasificar PCS según su nivel de riesgo");
 				System.out.print("Ingrese una opcion > ");
 				opcionElegida = Integer.valueOf(scan.nextLine());
-				
-				switch (opcionElegida) {//inicia switch Menú usuario
+
+				switch (opcionElegida) {// inicia switch Menú usuario
 				case 1:
 					System.out.println("-----------------------------");
 					System.out.println("Lista completa de PCS: ");
 					System.out.println();
-					
+					listaCompletaPcs();
+
 					break;
 				case 2:
 					System.out.println("-----------------------------");
-					//
+					agregarPcALaListaOoEliminar();
 					System.out.println();
-
 					break;
 				case 3:
 					System.out.println("-----------------------------");
-					System.out.println("Total de puertos abiertos");
+					desplegarListaPcsIndicandoNivelDeRiesgoYSusVulnerabilidades();
 					System.out.println();
-					
 					break;
-		
-				
-				}// aqui termina switch de opciones Menú admin 
-				
-				break;//break salir para la opcion admin
-				
+
+				}// aqui termina switch de opciones Menú admin
+
+				break;// break salir para la opcion admin
+
 			case "S":
 				break;
 			default:
 				System.out.println("Menú no valido, intene de nuevo.");
-				break;//break 
-			}//Hasta aqui llega el switch de los menus
-				
+				break;// break
+			}// Hasta aqui llega el switch de los menus
+
 		} while (!menuElegido.equalsIgnoreCase("S"));// while que rompe el progama si se elige "S"
 		System.out.println("Saliendo...");
-		
+
 	}
-	public static void llenarlistaPCS(String arch , ArrayList<PC> listapcs) throws FileNotFoundException 
-	{ // este metodo tiene como funcion rellenar la lista PC, accediendo al archivo PCS
+
+	// --------------------------------------------------------------------
+	// ----------------------------MÉTODOS---------------------------------
+	// --------------------------------------------------------------------
+
+	public static void llenarlistaPCS(String arch) throws FileNotFoundException {
 		Scanner scan = new Scanner(new File(arch));
-		while(scan.hasNextLine()) {
+		while (scan.hasNextLine()) {
 			String linea = scan.nextLine();
 			String[] partes = linea.split("\\|");
-			
+
 			String idPc = partes[0];
 			String ipPc = partes[1];
 			String sistemaOperativoPc = partes[2];
-			
-			PC pc = new PC(idPc, ipPc, sistemaOperativoPc);
-			listapcs.add(pc);
-			
-		}scan.close();
+
+			Pc pc = new Pc(idPc, ipPc, sistemaOperativoPc);
+			listaPCS.add(pc);
+
+		}
+		scan.close();
 	}
-	public static void mostrarListaPCS(ArrayList<PC> listapcs) 
-	{// este metodo tiene como funcion mostrar las listasPC
-		for (int i = 0; i< listapcs.size(); i ++) {
-			String idPc = listapcs.get(i).getIdPC();
-			String ipPc = listapcs.get(i).getIpPC();
-			String sistema = listapcs.get(i).getSistemaOperativoPc();
-			System.out.println("ID PC : "+idPc);
-			System.out.println("IP PC : "+ipPc);
-			System.out.println("Sistema operativo : "+sistema);
+
+	public static void mostrarListaPCS() {
+		for (int i = 0; i < listaPCS.size(); i++) {
+			String idPc = listaPCS.get(i).getIdPC();
+			String ipPc = listaPCS.get(i).getIpPC();
+			String sistema = listaPCS.get(i).getSistemaOperativoPc();
+			System.out.println("ID PC : " + idPc);
+			System.out.println("IP PC : " + ipPc);
+			System.out.println("Sistema operativo : " + sistema);
 			System.out.println();
-			
 		}
 	}
-	public static void rellenarlistaPuertos(String arch, ArrayList<Puerto> listaPuertos, ArrayList<PC> listapc) throws FileNotFoundException 
-	{// este metodo tiene como funcion rellenar de objetos la lista de puertos y agregar objetos a la lista " listaPuertosDelPc" de la clase PC
-		Scanner scan = new Scanner(new File(arch));
-		while(scan.hasNextLine()) {
+
+	public static void rellenarlistaPuertos(String arch) throws FileNotFoundException {
+
+		scan = new Scanner(new File(arch));
+
+		while (scan.hasNextLine()) {
+
 			String linea = scan.nextLine();
 			String[] partes = linea.split("\\|");
-			
+
 			String idPc = partes[0];
 			int numeroPuerto = Integer.valueOf(partes[1]);
 			String estadoPuerto = partes[2];
-			
+
 			Puerto puerto = new Puerto(idPc, numeroPuerto, estadoPuerto);
 			listaPuertos.add(puerto);
-			for (int i = 0; i<listapc.size(); i++) {
-				if(listapc.get(i).getIdPC().equals(idPc)) {
-					listapc.get(i).agregarPuertos(puerto);
+
+			for (int i = 0; i < listaPCS.size(); i++) {
+				if (listaPCS.get(i).getIdPC().equals(idPc)) {
+					listaPCS.get(i).agregarPuertos(puerto);
 
 				}
 			}
-			
 		}
+		scan.close();
 	}
-	public static void rellenarlistaVulnerabildad(String arch, ArrayList<Vulnerabilidad> listaVulne, ArrayList<Puerto> listaPuerto	) throws FileNotFoundException 
-	{// este metodo tiene como funcion agregar objetos  la list VULNERABILIDAD, tiene como otro parametro la lista de puertos ya creada con objetos, en ella se accede y se agregan objetos  al lista "listaVulnerabiliadadPuerto" de la clase PUERTO 
-		Scanner scan = new Scanner(new File(arch));
-		while(scan.hasNextLine()) {
-			String linea  = scan.nextLine();
+
+	public static void lecturaVulnerabilidades(String a) throws FileNotFoundException {
+		scan = new Scanner(new File(a));
+
+		while (scan.hasNextLine()) {
+
+			String linea = scan.nextLine();
+
 			String[] partes = linea.split("\\|");
-			
-			int idPuerto = Integer.valueOf(partes[0]);
-			String nombreVulne  = partes[1];
-			String descripcionVulne = partes[2];
-			
-			Vulnerabilidad vulnerabilidad = new Vulnerabilidad(idPuerto, nombreVulne, descripcionVulne);
-			listaVulne.add(vulnerabilidad);
-			for(int i = 0; i<listaPuerto.size(); i++) {
-				if(listaPuerto.get(i).getNumeroPuerto() == idPuerto) {
-					listaPuerto.get(i).agregarVulnerabilidades(vulnerabilidad);
+
+			int puerto = Integer.parseInt(partes[0]);
+			String nombre = partes[1];
+			String descripcion = partes[2];
+
+			Vulnerabilidad v = new Vulnerabilidad(puerto, nombre, descripcion);
+
+			listaVulnerabilidad.add(v);
+
+			for (int i = 0; i < listaPuertos.size(); i++) {
+				if (listaPuertos.get(i).getNumeroPuerto() == puerto) {
+					listaPuertos.get(i).agregarVulnerabilidad(v);
 				}
 			}
-			
+
 		}
-		
+
 	}
-	public static void mostrarPuertosPcElegido(String pc, ArrayList<PC> listapc)
-	{// solo printea el puerto elegido por el usuario 
-		for (PC p : listapc) {
-			if(p.getIdPC().equalsIgnoreCase(pc)) {
+
+	public static void mostrarPuertosPcElegido(String pc) {
+
+		for (Pc p : listaPCS) {
+			if (p.getIdPC().equalsIgnoreCase(pc)) {
 				System.out.println();
-				System.out.println("PC : "+p.getIdPC());
-				for(Puerto puerto : p.getListaPuertosDelPc()) {
-					System.out.println("Puertos : "+ puerto.getNumeroPuerto()+ ", Estado :" +puerto.getEstadoPuerto());
-					}
-			   }
-			}	
+				System.out.println("PC : " + p.getIdPC());
+				for (Puerto puerto : p.getListaPuertosDelPc()) {
+					System.out
+							.println("Puertos : " + puerto.getNumeroPuerto() + ", Estado :" + puerto.getEstadoPuerto());
+				}
+			}
+		}
 	}
-	public static void mostrarTotalPuertosAbiertos(ArrayList<Puerto> listaPuerto) 
-	{
+
+	public static void escanearPc(String pc) {
+
+		// DEBE INDICAR EL PC Y MOSTRAR TODOS LOS PUERTOS ASOCIADOS A ESTE
+
+		// GUARDAR RESULTADO DE ESCANEO
+
+		// ID DEL PC, INFO DEL PC, LOS PUERTOS ASOCIADOS, EL USUARIO QUE REALIZÓ
+		// EL ESCANEO, NIVEL DE RIESGO, Y FECHA DE ESCANEO
+
+		for (Pc p : listaPCS) {
+			if (p.getIdPC().equalsIgnoreCase(pc)) {
+				System.out.println(p.getListaPuertosDelPc());
+				break;
+			}
+		}
+
+	}
+
+	public static void mostrarIpsOrdenadas() {
+
+		Clase claseA = new Clase("A");
+		Clase claseB = new Clase("B");
+		Clase claseC = new Clase("B");
+
+		for (Pc pc : listaPCS) {
+
+			String ipPc = pc.getIpPC();
+			String[] partes = ipPc.split("\\.");
+
+			int primerNumero = Integer.parseInt(partes[0]);
+
+			if (primerNumero >= 0 && primerNumero <= 127) {
+				claseA.agregarListaTipoClase(pc);
+			} else if (primerNumero >= 128 && primerNumero <= 191) {
+				claseB.agregarListaTipoClase(pc);
+			} else if (primerNumero >= 192 && primerNumero <= 223) {
+				claseC.agregarListaTipoClase(pc);
+			}
+		}
+
+		claseA.imprimirPcsegunIp();
+		claseB.imprimirPcsegunIp();
+		claseC.imprimirPcsegunIp();
+
+	}
+
+	public static void listaCompletaPcs() {
+		for (Pc pc : listaPCS) {
+			System.out.println("PC: " + pc.getIdPC());
+			System.out.println("IP: " + pc.getIpPC());
+			System.out.println("Sistema Operativo: " + pc.getSistemaOperativoPc());
+			pc.getPuertosEnNumero();
+			System.out.println(
+					"------------------------------------------------------------------------------------------------");
+		}
+	}
+
+	public static void agregarPcALaListaOoEliminar() {
+
+		scan = new Scanner(System.in);
+
+		System.out.println("Para agregar un PC escriba A");
+		System.out.println("Para eliminar un PC escriba E");
+
+		String opcion = scan.nextLine();
+
+		if (opcion.equalsIgnoreCase("A")) {
+
+			System.out.println("Escoja nombre del pc (PCn):");
+			String nombrePcNuevo = scan.nextLine();
+
+			boolean existe = false;
+
+			for (Pc pc : listaPCS) {
+				if (pc.getIdPC().equalsIgnoreCase(nombrePcNuevo)) {
+					existe = true;
+					System.out.println("Este PC ya existe");
+					break;
+				}
+			}
+
+			if (existe) {
+				return;
+			}
+
+			System.out.println("Indique la IP del pc (n.n.n.n):");
+			String ipPcNuevo = scan.nextLine();
+			System.out.println("Indique el sistema operativo:");
+			String sistemaOperativoPcNuevo = scan.nextLine();
+
+			Pc pcNuevo = new Pc(nombrePcNuevo, ipPcNuevo, sistemaOperativoPcNuevo);
+
+			listaPCS.add(pcNuevo);
+
+			ArrayList<Puerto> puertosEnPcNuevo = new ArrayList<>();
+
+			System.out.println("Indique los puertos para su nuevo PC (0 para terminar): ");
+
+			while (true) {
+
+				System.out.println("Número del puerto: ");
+
+				int numPuerto = scan.nextInt();
+
+				if (numPuerto == 0) {
+					break;
+				}
+
+				System.out.println("Estado (Abierto/Cerrado): ");
+
+				String estado = scan.nextLine();
+
+				Puerto nuevoPuerto = new Puerto(nombrePcNuevo, numPuerto, estado);
+				puertosEnPcNuevo.add(nuevoPuerto);
+			}
+
+			pcNuevo.setListaPuertosManualmente(puertosEnPcNuevo);
+			listaPCS.add(pcNuevo);
+
+			for (Puerto puertos : puertosEnPcNuevo) {
+				listaPuertos.add(puertos);
+			}
+
+		} else if (opcion.equalsIgnoreCase("E")) {
+
+			System.out.println("Indique el PC a eliminar por su ID (PC001, PC002, PC0..., PC00n)");
+			String opcionAEliminar = scan.nextLine();
+
+			Pc pcAEliminar = null;
+
+			for (Pc pc : listaPCS) {
+				if (pc.getIdPC().equalsIgnoreCase(opcionAEliminar)) {
+					pcAEliminar = pc;
+					break;
+				}
+			}
+			System.out.println("aña");
+			if (opcionAEliminar != null) {
+				listaPCS.remove(pcAEliminar);
+
+				for (int i = 0; i < listaPuertos.size(); i++) {
+					Puerto p = listaPuertos.get(i);
+
+					if (p.getIdPC().trim().equalsIgnoreCase(opcionAEliminar)) {
+						listaPuertos.remove(i);
+						System.out.println("Puertos son: " + p.getNumeroPuerto());
+						i--;
+					}
+				}
+			}
+		}
+	}
+
+	public static void desplegarListaPcsIndicandoNivelDeRiesgoYSusVulnerabilidades() {
+
+		System.out.println("=== Clasificación de riesgo por PC ===");
+
+		for (Pc pc : listaPCS) {
+
+			String idPc = pc.getIdPC();
+			String ipPc = pc.getIpPC();
+			String sOperativo = pc.getSistemaOperativoPc();
+
+			ArrayList<String> vulneDetectadas = new ArrayList<>();
+
+			for (Puerto p : pc.getListaPuertosDelPc()) {
+
+				if (p.getEstadoPuerto().equalsIgnoreCase("Abierto")) {
+
+					for (Vulnerabilidad v : listaVulnerabilidad) {
+
+						if (v.getPuerto() == p.getNumeroPuerto()) {
+
+							boolean verificarRepetido = false;
+
+							for (int i = 0; i < vulneDetectadas.size(); i++) {
+
+								if (vulneDetectadas.get(i).equalsIgnoreCase(v.getNombre())) {
+									verificarRepetido = true;
+									break;
+								}
+
+							}
+
+							if (!verificarRepetido) {
+								vulneDetectadas.add(v.getNombre());
+							}
+						}
+					}
+				}
+			}
+
+			int totalVulnes = vulneDetectadas.size();
+			String nivelDeRiesgo = null;
+
+			if (totalVulnes == 0 || totalVulnes == 1) {
+				nivelDeRiesgo = "BAJO";
+			} else if (totalVulnes <= 2) {
+				nivelDeRiesgo = "MEDIO";
+			} else {
+				nivelDeRiesgo = "ALTO";
+			}
+
+			System.out.println();
+			System.out.println("PC: " + idPc + "| IP: " + ipPc + " | SO " + sOperativo);
+			System.out.println("Nivel de riesgo: " + nivelDeRiesgo + " (" + totalVulnes + " vulnerabilidades)");
+
+			if (vulneDetectadas.size() == 0) {
+				System.out.println("No existen vulnerabilidades asociadas");
+			} else {
+				System.out.println("Vulnerabilidades detectadas: ");
+				for (int i = 0; i < vulneDetectadas.size(); i++) {
+					System.out.println(vulneDetectadas.get(i));
+				}
+			}
+			System.out.println("----------------------------------------------------------------------");
+
+		}
+	}
+
+	public static void mostrarTotalPuertosAbiertos() {
 		// muestra por pantalla el total de puertos abiertos
 		int contar = 0;
-		for(Puerto p : listaPuerto) {
-			if(p.getEstadoPuerto().equalsIgnoreCase("Abierto")) {
-				contar ++;
-				System.out.println("PUERTO  : "+p.getNumeroPuerto());
-				for(Vulnerabilidad v : p.getListaVulnerabiliadadPuerto()) {
-					System.out.println("NOMBRE VULNERABILIDAD : "+ v.getNombreVulnerabilidad());
-					System.out.println("DESCRIPCIPÓN VULNERABILIDAD : "+v.getDescripcionVulnerabilidad());
+		for (Puerto p : listaPuertos) {
+			if (p.getEstadoPuerto().equalsIgnoreCase("Abierto")) {
+				contar++;
+				System.out.println("PUERTO  : " + p.getNumeroPuerto());
+				for (Vulnerabilidad v : p.getlistaVulnerabilidad()) {
+					System.out.println("NOMBRE VULNERABILIDAD : " + v.getNombre());
+					System.out.println("DESCRIPCIÓN VULNERABILIDAD : " + v.getDescripcion());
 					System.err.println();
 				}
 			}
-			
-		}
-		System.out.println("-----------------------------");
-		System.out.println("TOTAL PUERTOS ABIERTOS : "+contar);
-		System.out.println("-----------------------------");
 
-	}
-	public static void mostrarIPordenada(ArrayList<PC> listapcs) {
-		// este metodo crea nuevos objetos de tipo Clase, luego se accede a cada objeto con for each para acceder agregar datos a la lista 
-		// "listaTipoClase" de la clase "Clase", se rellena con objetos tipo clase para acceder a ellos con una condicion (la condicion de las ip)
-		// luego se muestra por pantalla llamando a un metodo dentro de la clase "Clase"
-		Clase claseA = new Clase("A");
-		Clase claseB = new Clase("B");
-		Clase claseC = new Clase("C");
-		
-		for(PC p : listapcs) {
-			String ipPC = p.getIpPC();
-			String[] partes = ipPC.split("\\.");
-			
-			int primerNumero = Integer.valueOf(partes[0]);
-			
-			if(primerNumero>= 0 && primerNumero<=127) {
-				claseA.agregarListaTipoClase(p);
-			}
-			else if(primerNumero>= 128 && primerNumero<=191) {
-				claseB.agregarListaTipoClase(p);
-			}
-			else if(primerNumero>= 192 && primerNumero<=223) {
-				claseC.agregarListaTipoClase(p);
-			}
 		}
-		claseA.imprimirPCsegunIP();
-		claseB.imprimirPCsegunIP();
-		claseC.imprimirPCsegunIP();
-
+		System.out.println("----------------------");
+		System.out.println("TOTAL PUERTOS ABIERTO: " + contar);
+		System.out.println("----------------------");
 	}
 }
